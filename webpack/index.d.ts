@@ -1,4 +1,4 @@
-import { WebpackOptions } from 'webpack/declarations/WebpackOptions';
+import { WebpackOptions, OutputOptions } from 'webpack/declarations/WebpackOptions';
 
 export interface WebpackConfigOptionsBase {
   target?:
@@ -12,7 +12,7 @@ export interface WebpackConfigOptionsBase {
   | 'electron-preload';
   url?: string;
   entry?: string;
-  output?: string;
+  output?: string | OutputOptions;
   loaders?: Record<string, any>;
 }
 

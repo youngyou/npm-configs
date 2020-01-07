@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -16,7 +15,7 @@ module.exports = (options) => {
   let publicUrl = options.url || '';
   const config = {
     entry: options.entry,
-    output: {
+    output: typeof options.output === 'object' ? options.output : {
       path: options.output,
       publicPath: `${publicUrl}/`,
       filename: devMode ? '[name].js' : '[name].[hash:6].js',
@@ -36,6 +35,9 @@ module.exports = (options) => {
     resolve: {
       plugins: [PnpWebpackPlugin],
       extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json'],
+      alias: {
+        'react-dom': devMode ? '@hot-loader/react-dom' : 'react-dom'
+      }
     },
     module: {
       strictExportPresence: true,
@@ -96,7 +98,8 @@ module.exports = (options) => {
       //     new RegExp('/[^/]+\\.[^/]+$'),
       //   ],
       // }),
-      new CleanWebpackPlugin(),
+      new webpack.NamedModulesPlugin(),
+      // new CleanWebpackPlugin(),
     ].filter(Boolean),
     devServer: {
       hot: true,

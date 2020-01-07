@@ -7,8 +7,7 @@ module.exports = (options = {}) => () => {
   ]).then(([HtmlWebpackPlugin]) => ({
     plugins: [
       new HtmlWebpackPlugin(Object.assign({}, {
-        inject: options.inject !== false,
-        template: typeof options === 'string' ? options : options.template,
+        inject: false,
         minify: !devMode ?
           undefined : {
             removeComments: true,
@@ -22,6 +21,7 @@ module.exports = (options = {}) => () => {
             minifyCSS: true,
             minifyURLs: true,
           },
+        ...options
       })),
     ],
   }));
