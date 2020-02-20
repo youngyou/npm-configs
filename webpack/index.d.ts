@@ -1,6 +1,6 @@
 import { WebpackOptions, OutputOptions } from 'webpack/declarations/WebpackOptions';
 
-export interface WebpackConfigOptionsBase {
+interface WebpackConfigOptionsBase {
   target?:
   | 'web'
   | 'webworker'
@@ -16,18 +16,18 @@ export interface WebpackConfigOptionsBase {
   loaders?: Record<string, any>;
 }
 
-export interface WebpackConfigOptions extends WebpackConfigOptionsBase {
-  uses?: Array<string | [string, any?] | WebpackOptions>;
+interface WebpackConfigOptions extends WebpackConfigOptionsBase {
+  uses?: Array<WebpackOptions | string | [string, any?] >;
   profiles?: {
     [profile: string]: Omit<WebpackConfigOptions, 'profiles'>;
   };
   loaders?: string[] | Record<string, any>;
 }
 
-export type PluginInstance = (options: WebpackConfigOptionsBase) => WebpackOptions | Promise<WebpackOptions>;
+type PluginInstance = (options: WebpackConfigOptionsBase) => WebpackOptions | Promise<WebpackOptions>;
 
-export type Plugin<T = any> = (params: T) => PluginInstance;
+type Plugin<T = any> = (params: T) => PluginInstance;
 
 declare const WebpackWrapper: (options: WebpackConfigOptions) => (env: string | Record<string, string> | undefined, argv: Record<string, any>) => Promise<WebpackOptions>;
 
-export default WebpackWrapper;
+export = WebpackWrapper;
